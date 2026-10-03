@@ -127,6 +127,7 @@ Doctor also refuses these retired config inputs:
 - Top-level `heartbeat`, `routing.allowFrom`, and `routing.groupChat`.
 - `channels.telegram.requireMention`, `channels.feishu.accounts.<id>.botName`,
   and the retired `channels.webchat` section.
+- `channels.whatsapp.exposeErrorText`, including account overrides.
 - `session.threadBindings.ttlHours` and Discord/LINE/Matrix/Telegram `threadBindings.ttlHours`,
   including per-account settings.
 - Telegram `dm`, `direct.*.threadReplies`, native draft preview settings, and scalar
@@ -141,6 +142,11 @@ succeed. Doctor preserves the config and stops with recovery guidance instead
 of stripping these settings or replacing them with a backup. For an older installation,
 [upgrade through `2026.9.5`](/install/updating#upgrading-very-old-versions)
 and run its Doctor migrations before installing the latest version.
+
+WhatsApp's `exposeErrorText` has been ignored since April 2026. Remove it from
+the reported channel or account path before retrying; removing this no-op does
+not change error delivery. Doctor leaves the authored config unchanged, or you
+can use the intermediate release above to remove it.
 
 ## Cron ownership before roster migration
 
