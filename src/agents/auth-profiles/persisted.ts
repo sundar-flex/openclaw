@@ -66,7 +66,7 @@ function parseCredentialEntry(
     return { ok: false, reason: "non_object" };
   }
   const typed = normalizeRawCredentialEntry(raw);
-  if (!AUTH_PROFILE_TYPES.has(typed.type as AuthProfileCredential["type"])) {
+  if (!typed) {
     return { ok: false, reason: "invalid_type" };
   }
   const provider = typed.provider || fallbackProvider;

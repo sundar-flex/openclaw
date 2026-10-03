@@ -76,10 +76,10 @@ function normalizeCommonCredentialFields(entry: Record<string, unknown>): Record
 
 export function normalizeRawCredentialEntry(
   raw: Record<string, unknown>,
-): Partial<AuthProfileCredential> {
+): Partial<AuthProfileCredential> | undefined {
   const entry = raw;
   if (entry.type === "api_key") {
-    const normalized: Record<string, unknown> = {
+    const normalized: Partial<Extract<AuthProfileCredential, { type: "api_key" }>> = {
       type: "api_key",
       ...normalizeCommonCredentialFields(entry),
     };
@@ -95,10 +95,10 @@ export function normalizeRawCredentialEntry(
     if (metadata) {
       normalized.metadata = metadata;
     }
-    return normalized as Partial<AuthProfileCredential>;
+    return normalized;
   }
   if (entry.type === "token") {
-    const normalized: Record<string, unknown> = {
+    const normalized: Partial<Extract<AuthProfileCredential, { type: "token" }>> = {
       type: "token",
       ...normalizeCommonCredentialFields(entry),
     };
@@ -114,7 +114,7 @@ export function normalizeRawCredentialEntry(
     if (expires !== undefined) {
       normalized.expires = expires;
     }
-    return normalized as Partial<AuthProfileCredential>;
+    return normalized;
   }
   if (entry.type === "oauth") {
     const normalized: Record<string, unknown> = {
@@ -140,5 +140,5 @@ export function normalizeRawCredentialEntry(
     }
     return normalized;
   }
-  return entry as Partial<AuthProfileCredential>;
+  return undefined;
 }
